@@ -20,6 +20,10 @@ unsigned int Ahorcado::obtener_intentos(){
 	return (this->intentos);
 }
 
+unsigned Ahorcado::obtener_errores_cometidos() {
+	return this->errores_cometidos;
+}
+
 char* Ahorcado::obtener_palabra() {
 	return this->palabra;
 }
@@ -33,7 +37,7 @@ void Ahorcado::aumentar_errores(){
 }
 
 void Ahorcado::comparar_palabra(string palabra_arriesgada) {
-	if (strlen(palabra_arriesgada) != contar_letras()) return;
+	if (palabra_arriesgada.length() != contar_letras()) return;
 
 	bool coinciden = true;
 	int i = 0;
@@ -104,7 +108,7 @@ bool Ahorcado::letra_es_repetida(char letra){
 
 bool Ahorcado::comprobar_partida(){
 	bool sigue_partida = true;
-	if(!this->gano() || this->intentos <= 0){
+	if(this->gano() || this->intentos <= 0){
 		sigue_partida = false;
 	}
 	return sigue_partida;

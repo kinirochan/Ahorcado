@@ -34,8 +34,8 @@ int main() {
     cin >> dato_ingresado;
 
     if(dato_ingresado.length() == 1){
-      if(partida.chequear_letra(dato_ingresado[0] == 0))
-        partida.aumetar_errores();
+      if(partida.chequear_letra(dato_ingresado[0]) == 0)
+        partida.aumentar_errores();
     }else{
       partida.comparar_palabra(dato_ingresado);
     }
