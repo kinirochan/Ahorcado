@@ -48,7 +48,6 @@ int main() {
 }
 
 int validar_datos(char* palabra, int intentos){
-
   return 0;
 }
 

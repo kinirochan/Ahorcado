@@ -111,6 +111,7 @@ bool Ahorcado::comprobar_partida(){
 	if(this->gano() || this->intentos <= 0){
 		sigue_partida = false;
 	}
+
 	return sigue_partida;
 }
 
