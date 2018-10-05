@@ -52,6 +52,8 @@ void Ahorcado::comparar_palabra(string palabra_arriesgada) {
 		for (i = 0; i < contar_letras(); i++) {
 			letras_acertadas[i] = true;
 		}
+	} else {
+		this->errores_cometidos = this->intentos;
 	}
 }
 
@@ -108,7 +110,7 @@ bool Ahorcado::letra_es_repetida(char letra){
 
 bool Ahorcado::comprobar_partida(){
 	bool sigue_partida = true;
-	if(this->gano() || this->intentos <= 0){
+	if(this->gano() || this->errores_cometidos >= this->intentos){
 		sigue_partida = false;
 	}
 
