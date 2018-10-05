@@ -20,10 +20,12 @@ const string CABEZAS[] = {"😳", "😬", "😐", "😣", "😞", "😨", "😰"
 const string PERSONA[] = {"", MANO_IZQUIERDA, CUERPO, MANO_DERECHA, PIERNAS, PIE_IZQUIERDO, PIE_DERECHO};
 
 void dibujar_persona(int errores, int intentos_max) {
-	cout << "      " << BARRA_SUPERIOR << "  Vidas extra:" << endl;
-	cout << "      " << BARRA_CABEZA << "       " << BARRA_VERTICAL << "  ";
-
 	int cantidad_corazones = intentos_max - CANT_PERSONAJES;
+
+	cout << "      " << BARRA_SUPERIOR;
+	if (cantidad_corazones > 0)	cout << "  Vidas extra:";
+	cout << endl;
+	cout << "      " << BARRA_CABEZA << "       " << BARRA_VERTICAL << "  ";
 
 	for (int i = cantidad_corazones - 1; i >= 0; i--) { // Uso este formato para que se "borren" desde la derecha
 			cout << CORAZONES[i < errores] << "  ";

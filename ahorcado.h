@@ -7,12 +7,14 @@
 
 using namespace std;
 
+const int MAX_LETRAS = 27;
+
 class Ahorcado{
 
 	private:
 
 		char * palabra;
-		char letras_ingresadas[27];
+		char letras_ingresadas[MAX_LETRAS];
 		bool * letras_acertadas;
 		unsigned intentos;
 		unsigned errores_cometidos;
