@@ -3,6 +3,7 @@
 //constructor
 Ahorcado::Ahorcado(string palabra, unsigned int intentos) {
 	this->errores_cometidos = 0;
+	this->cantidad_letras_ingresadas = 0;
 	this->intentos = intentos;
 
 	this->letras_acertadas = new bool[palabra.length()];
@@ -81,6 +82,13 @@ bool Ahorcado::gano() {
 	return gano;
 }
 
+void Ahorcado::ingresar_letra(char letra) {
+	if (!letra_es_repetida(letra)) {
+		this->letras_ingresadas[this->cantidad_letras_ingresadas] = letra;
+		this->cantidad_letras_ingresadas++;	
+	}
+}
+
 int Ahorcado::chequear_letra(char letra) {
 	int longitud_vector = this->contar_letras();
 	int cantidad_letras = 0;
@@ -97,16 +105,16 @@ int Ahorcado::chequear_letra(char letra) {
 
 bool Ahorcado::letra_es_repetida(char letra) {
 	unsigned contador = 0;
-	bool no_repetido = true;
+	bool repetida = false;
 
-	while ((contador < this->cantidad_letras_ingresadas) && no_repetido) {
+	while ((contador < this->cantidad_letras_ingresadas) && !repetida) {
 		if (this->letras_ingresadas[contador] == letra) {
-			no_repetido = false;
+			repetida = true;
 		}
 		contador++;
 	}
 
-	return no_repetido;
+	return repetida;
 }
 
 bool Ahorcado::comprobar_partida() {

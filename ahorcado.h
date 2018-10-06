@@ -62,6 +62,10 @@ class Ahorcado{
 		/*post: verifica si el jugador gano o no el juego devolviendo true y false respectivamente */
 		bool gano();
 
+		/* pre: recibe la letra ingresada por el usuario */
+		/*post: agrega la letra en el vector de letras_ingresadas */
+		void ingresar_letra(char letra);
+
 		/* pre: recibe una letra ingresada por el usuario */
 		/*post: devuelve true si la letra ingresada ya habia sido ingresada anteriormente  */
 		bool letra_es_repetida(char letra);

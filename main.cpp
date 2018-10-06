@@ -49,8 +49,11 @@ int main() {
 		system ("clear");
 
 		if (dato_ingresado.length() == 1){
-			if (partida.chequear_letra(dato_ingresado[0]) == 0)
+			char letra = dato_ingresado[0];
+			if ((partida.chequear_letra(letra) == 0) && !partida.letra_es_repetida(letra)) {
 				partida.aumentar_errores();
+				partida.ingresar_letra(letra);
+			}
 		} else {
 			partida.comparar_palabra(dato_ingresado);
 		}
