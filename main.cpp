@@ -18,14 +18,20 @@ string buscar_palabra_aleatoria();
 /*post: devuelve el numero de intentos solicitado por el usuario */
 int pedir_intentos();
 
-/* pre: recibe un char* palabra y un numero de intentos */
-/*post: ¿?*/
-int validar_datos(char * palabra, int intentos);
+/* pre: recibe un char* palabra  */
+/*post: devuelve true si los datos ingresados son correctos y false en caso contrario*/
+bool validar_palabra(string palabra);
+
+/* pre: recibe un numero de intentos */
+/*post: devuelve true si los datos ingresados son correctos y false en caso contrario*/
+bool validar_intentos(int intentos);
 
 /* pre: recibe un char* valido y cargado correctamente*/
 /*post: devuelve la cantidad de caracteres del char* */
 int largo_string(char* palabra);
 
+/* pre: recibe la partida finalizada*/
+/*post: muestra por pantalla si el jugador gano o perdio */
 void mostrar_resultado(Ahorcado partida);
 
 int main() {
@@ -34,9 +40,16 @@ int main() {
 	int intentos_restantes;
 
 	dato_ingresado = pedir_palabra();
+	while (!validar_palabra(dato_ingresado)){
+		dato_ingresado = pedir_palabra();
+	}
 	cantidad_intentos = pedir_intentos();
+	while(!validar_intentos(cantidad_intentos)){
+		cantidad_intentos = pedir_intentos();
+	}
+
 	system ("clear");
-	
+
 	Ahorcado partida(dato_ingresado, cantidad_intentos);
 
 	while (partida.comprobar_partida()) {
@@ -67,9 +80,21 @@ int main() {
 	return 0;
 }
 
-int validar_datos(char* palabra, int intentos) {
-	//mensaje para el giaco del futuro .. termina tu funcion
-	return 0;
+bool validar_palabra(string palabra) {
+		bool es_valido = true;
+
+		if(palabra.length() < 3){
+			es_valido = false;
+		}
+	return es_valido;
+}
+
+bool validar_intentos(int intentos) {
+		bool es_valido = true;
+		if(intentos < 3){
+			es_valido = false;
+		}
+	return es_valido;
 }
 
 int largo_string(char* palabra) {
@@ -115,7 +140,7 @@ string buscar_palabra_aleatoria() {
 
 int pedir_intentos() {
 	int intentos;
-	cout << "Ingrese el numero de intentos deseado" << endl;
+	cout << "Ingrese el numero de intentos deseado como minimo deben ser tres" << endl;
 	cin >> intentos;
 	return intentos;
 }
