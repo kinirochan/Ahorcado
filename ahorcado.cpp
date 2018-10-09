@@ -2,6 +2,7 @@
 
 //constructor
 Ahorcado::Ahorcado(string palabra, unsigned int intentos) {
+	std::cout << "Constructor:" << '\n';
 	this->errores_cometidos = 0;
 	this->cantidad_letras_ingresadas = 0;
 	this->intentos = intentos;
@@ -10,9 +11,19 @@ Ahorcado::Ahorcado(string palabra, unsigned int intentos) {
 	for (int i = 0; i < (int)palabra.length(); i++) {
 		letras_acertadas[i] = false;
 	}
+	std::cout << "Direccion de memoria de letras_acertadas: " << &this->letras_acertadas  << '\n';
 
 	this->palabra = new char[palabra.length() + 1];
-	strcpy(this->palabra, palabra.c_str());
+	convertir_string_a_char(palabra, this->palabra);
+	this->pasar_a_minusculas(this->palabra, palabra.length() + 1);
+	std::cout << "Direccion de memoria de palabra: " << &this->palabra  << "\n\n";
+}
+
+void Ahorcado::convertir_string_a_char(string palabra_string, char* palabra_char){
+	for(unsigned i = 0; i < palabra_string.length(); i++){
+		palabra_char[i] = palabra_string[i];
+	}
+	palabra_char[palabra_string.length()] = '\0';
 }
 
 unsigned int Ahorcado::obtener_intentos() {
@@ -35,27 +46,26 @@ void Ahorcado::aumentar_errores() {
 	this->errores_cometidos++;
 }
 
-void Ahorcado::comparar_palabra(string palabra_arriesgada) {
-	if ((int)palabra_arriesgada.length() != contar_letras()) {
+void Ahorcado::comparar_palabra(char* palabra_arriesgada, int largo) {
+	if (largo != contar_letras()) {
 		this->errores_cometidos = this->intentos;
-		return;
-	}
-
-	bool coinciden = true;
-	int i = 0;
-	while (i < contar_letras() && coinciden) {
-		if (this->palabra[i] != palabra_arriesgada[i]) {
-			coinciden = false;
-		}
-		i++;
-	}
-
-	if (coinciden) {
-		for (i = 0; i < contar_letras(); i++) {
-			letras_acertadas[i] = true;
-		}
 	} else {
-		this->errores_cometidos = this->intentos;
+		bool coinciden = true;
+		int i = 0;
+		while (i < contar_letras() && coinciden) {
+			if (this->palabra[i] != palabra_arriesgada[i]) {
+				coinciden = false;
+			}
+			i++;
+		}
+
+		if (coinciden) {
+			for (i = 0; i < contar_letras(); i++) {
+				letras_acertadas[i] = true;
+			}
+		} else {
+			this->errores_cometidos = this->intentos;
+		}
 	}
 }
 
@@ -85,7 +95,7 @@ bool Ahorcado::gano() {
 void Ahorcado::ingresar_letra(char letra) {
 	if (!letra_es_repetida(letra)) {
 		this->letras_ingresadas[this->cantidad_letras_ingresadas] = letra;
-		this->cantidad_letras_ingresadas++;	
+		this->cantidad_letras_ingresadas++;
 	}
 }
 
@@ -126,7 +136,22 @@ bool Ahorcado::comprobar_partida() {
 	return sigue_partida;
 }
 
+void Ahorcado::pasar_a_minusculas (char * palabra, int tamanio_vector){
+
+	for(int i = 0; i < tamanio_vector; i++){
+	 	palabra[i] = tolower(palabra[i]);
+	}
+
+}
+
+//destructor
 Ahorcado::~Ahorcado() {
-	delete[] this->palabra;
+
+	std::cout << "Destructor:" << '\n';
+	std::cout << "Direccion de memoria de letras_acertadas: " << &this->letras_acertadas  << '\n';
 	delete[] this-> letras_acertadas;
+
+	std::cout << "Direccion de memoria de palabra: " << &this->palabra  << '\n';
+	delete[] this->palabra;
+
 }

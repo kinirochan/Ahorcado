@@ -4,17 +4,23 @@
 #include <fstream>
 #include <stdlib.h>
 #include <time.h>
+#include <cctype>
+
+const string SI = "s";
+const string NO = "n";
+const int MIN_INTENTOS = 3;
+const int MIN_LETRAS = 3;
 
 /*pre: - */
 /*post: Solicita al usuario que ingrese una palabra para jugar o se toma una
 aleatoria de un archivo y se devuelve.*/
 string pedir_palabra ();
 
-/*pre: -*/
+/*pre: - */
 /*post: devuelve una palabra aleatoria obtenida de un archivo*/
 string buscar_palabra_aleatoria();
 
-/* pre: */
+/* pre: - */
 /*post: devuelve el numero de intentos solicitado por el usuario */
 int pedir_intentos();
 
@@ -32,66 +38,109 @@ int largo_string(char* palabra);
 
 /* pre: recibe la partida finalizada*/
 /*post: muestra por pantalla si el jugador gano o perdio */
-void mostrar_resultado(Ahorcado partida);
+void mostrar_resultado(bool gano);
 
 int main() {
+	/*___Variables___*/
 	string dato_ingresado;
-	int cantidad_intentos;
-	int intentos_restantes;
+	string palabra_ingresada;
+	int cantidad_intentos, intentos_restantes;
+	char * palabra_arriesgada = NULL;
 
-	dato_ingresado = pedir_palabra();
-	while (!validar_palabra(dato_ingresado)){
-		dato_ingresado = pedir_palabra();
-	}
+
+	palabra_ingresada = pedir_palabra();
 	cantidad_intentos = pedir_intentos();
-	while(!validar_intentos(cantidad_intentos)){
-		cantidad_intentos = pedir_intentos();
-	}
 
 	system ("clear");
 
-	Ahorcado partida(dato_ingresado, cantidad_intentos);
+	Ahorcado partida(palabra_ingresada, cantidad_intentos);
 
 	while (partida.comprobar_partida()) {
+
 		dibujar_persona(partida.obtener_errores_cometidos(), partida.obtener_intentos());
 		dibujar_letras(partida.obtener_palabra(), partida.obtener_letras_acertadas(), partida.contar_letras());
+
 		intentos_restantes = (partida.obtener_intentos() - partida.obtener_errores_cometidos());
 		cout << "Tiene " << intentos_restantes << " intentos restantes" << endl;
 		cout << "Ingrese una letra o intente adivinar la palabra:" << endl;
 		cin >> dato_ingresado;
-		system ("clear");
 
 		if (dato_ingresado.length() == 1){
 			char letra = dato_ingresado[0];
+			letra=tolower(letra);
+
 			if ((partida.chequear_letra(letra) == 0) && !partida.letra_es_repetida(letra)) {
+
 				partida.aumentar_errores();
 				partida.ingresar_letra(letra);
+
 			}
+
 		} else {
-			partida.comparar_palabra(dato_ingresado);
+
+			palabra_arriesgada = new char [dato_ingresado.length()+1];
+			partida.convertir_string_a_char(dato_ingresado, palabra_arriesgada);
+			partida.pasar_a_minusculas(palabra_arriesgada,dato_ingresado.length());
+			partida.comparar_palabra(palabra_arriesgada, dato_ingresado.length());
+
 		}
+
+		system ("clear");
 	}
 
 	dibujar_persona(partida.obtener_errores_cometidos(), partida.obtener_intentos());
 	dibujar_letras(partida.obtener_palabra(), partida.contar_letras());
 
-	mostrar_resultado(partida);
+	mostrar_resultado(partida.gano());
 
-	return 0;
+	if(palabra_arriesgada!=NULL){
+		delete[] palabra_arriesgada;
+	}
+
+	return EXIT_SUCCESS;
+}
+
+string pedir_palabra() {
+	string palabra;
+	string elegir_palabra;
+
+	do{
+
+		cout << "¿Desea ingresar una palabra? [s/n]" << endl;
+		cin >> elegir_palabra;
+
+		if (elegir_palabra == SI) {
+
+			do{
+				cout << "Ingrese una palabra con mas de tres letras" << endl;
+				cin >> palabra;
+			} while (!validar_palabra(palabra));
+
+		} else if (elegir_palabra == NO) {
+
+			palabra = buscar_palabra_aleatoria();
+			cout << "Se ha elegido una palabra al azar." << '\n';
+
+		}
+
+	}while (elegir_palabra != SI && elegir_palabra != NO);
+
+	return palabra;
 }
 
 bool validar_palabra(string palabra) {
 		bool es_valido = true;
 
-		if(palabra.length() < 3){
+		if(palabra.length() < MIN_LETRAS){
 			es_valido = false;
 		}
+
 	return es_valido;
 }
 
 bool validar_intentos(int intentos) {
 		bool es_valido = true;
-		if(intentos < 3){
+		if(intentos < MIN_INTENTOS){
 			es_valido = false;
 		}
 	return es_valido;
@@ -105,21 +154,6 @@ int largo_string(char* palabra) {
 	}
 
 	return largo;
-}
-
-string pedir_palabra() {
-	string palabra;
-	char elegir_palabra;
-	cout << "¿Desea ingresar una palabra? [s/n]" << endl;
-	cin >> elegir_palabra;
-
-	if (elegir_palabra == 's') {
-		cout << "Ingrese una palabra con mas de tres letras" << endl;
-		cin >> palabra;
-	} else if (elegir_palabra == 'n') {
-		palabra = buscar_palabra_aleatoria();
-	}
-	return palabra;
 }
 
 string buscar_palabra_aleatoria() {
@@ -140,14 +174,18 @@ string buscar_palabra_aleatoria() {
 
 int pedir_intentos() {
 	int intentos;
-	cout << "Ingrese el numero de intentos deseado como minimo deben ser tres" << endl;
-	cin >> intentos;
+
+	do{
+		cout << "Ingrese el numero de intentos deseado, como minimo deben ser tres." << endl;
+		cin >> intentos;
+	}while (!validar_intentos(intentos));
+
 	return intentos;
 }
 
-void mostrar_resultado(Ahorcado partida){
+void mostrar_resultado(bool gano) {
 
-	if (partida.gano()) {
+	if (gano) {
 		cout << "Ha ganado la partida!" << endl;
 	} else {
 		cout << "Ha perdido la partida" << endl;
