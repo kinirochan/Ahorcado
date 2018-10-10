@@ -26,7 +26,7 @@ string buscar_palabra_aleatoria();
 /*post: devuelve el numero de intentos solicitado por el usuario */
 int pedir_intentos();
 
-/* pre: recibe un char* palabra  */
+/* pre: recibe un char* palabra ya cargado */
 /*post: devuelve true si los datos ingresados son correctos y false en caso contrario*/
 bool validar_palabra(string palabra);
 
@@ -69,7 +69,7 @@ int main() {
 
 		if (dato_ingresado.length() == 1){
 			char letra = dato_ingresado[0];
-			letra=tolower(letra);
+			letra = tolower(letra);
 
 			if ((partida.chequear_letra(letra) == 0) && !partida.letra_es_repetida(letra)) {
 
@@ -82,8 +82,8 @@ int main() {
 
 			palabra_arriesgada = new char [dato_ingresado.length()+1];
 			partida.convertir_string_a_char(dato_ingresado, palabra_arriesgada);
-			partida.pasar_a_minusculas(palabra_arriesgada,dato_ingresado.length());
-			partida.comparar_palabra(palabra_arriesgada, dato_ingresado.length());
+			partida.pasar_a_minusculas(palabra_arriesgada, largo_string(palabra_arriesgada));
+			partida.comparar_palabra(palabra_arriesgada, largo_string(palabra_arriesgada));
 
 		}
 
@@ -142,9 +142,11 @@ bool validar_palabra(string palabra) {
 
 bool validar_intentos(int intentos) {
 		bool es_valido = true;
+
 		if(intentos < MIN_INTENTOS){
 			es_valido = false;
 		}
+
 	return es_valido;
 }
 
@@ -192,4 +194,5 @@ void mostrar_resultado(bool gano) {
 	} else {
 		cout << "Ha perdido la partida" << endl;
 	}
+
 }

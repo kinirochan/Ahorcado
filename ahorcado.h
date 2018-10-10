@@ -34,7 +34,7 @@ class Ahorcado{
 		Ahorcado(string palabra, unsigned int intentos);
 
 		/*pre: recibe un string valido y un char * vacio */
-		/*post: convierte un string en char* */
+		/*post: pasa los datos del string a un char* */
 		void convertir_string_a_char(string palabra_string, char* palabra_char);
 
 		/* pre: - */
@@ -54,7 +54,7 @@ class Ahorcado{
 		adivinada y false en caso contrario*/
 		bool* obtener_letras_acertadas();
 
-		/* pre: -*/
+		/* pre: recibe un char * con la palabra que arriesgo el usuario y el largo de la misma */
 		/*post: compara si la palabra a adivinar y la arriesgada coinciden viendo asi si el
 		jugador gano o perdio */
 		void comparar_palabra(char* palabra_arriesgada, int largo);

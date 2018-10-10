@@ -19,6 +19,7 @@ Ahorcado::Ahorcado(string palabra, unsigned int intentos) {
 }
 
 void Ahorcado::convertir_string_a_char(string palabra_string, char* palabra_char){
+
 	for(unsigned i = 0; i < palabra_string.length(); i++){
 		palabra_char[i] = palabra_string[i];
 	}
@@ -46,22 +47,28 @@ void Ahorcado::aumentar_errores() {
 }
 
 void Ahorcado::comparar_palabra(char* palabra_arriesgada, int largo) {
+
 	if (largo != contar_letras()) {
 		this->errores_cometidos = this->intentos;
 	} else {
 		bool coinciden = true;
 		int i = 0;
+
 		while (i < contar_letras() && coinciden) {
+
 			if (this->palabra[i] != palabra_arriesgada[i]) {
 				coinciden = false;
+
 			}
 			i++;
 		}
 
 		if (coinciden) {
+
 			for (i = 0; i < contar_letras(); i++) {
 				letras_acertadas[i] = true;
 			}
+
 		} else {
 			this->errores_cometidos = this->intentos;
 		}
@@ -81,10 +88,13 @@ int Ahorcado::contar_letras() {
 bool Ahorcado::gano() {
 	bool gano = true;
 	int contador = 0;
+
 	while ((contador < contar_letras()) && (gano)) {
+
 		if (this->letras_acertadas[contador] == false) {
 			gano = false;
 		}
+
 		contador++;
 	}
 
@@ -92,10 +102,12 @@ bool Ahorcado::gano() {
 }
 
 void Ahorcado::ingresar_letra(char letra) {
+
 	if (!letra_es_repetida(letra)) {
 		this->letras_ingresadas[this->cantidad_letras_ingresadas] = letra;
 		this->cantidad_letras_ingresadas++;
 	}
+
 }
 
 int Ahorcado::chequear_letra(char letra) {
@@ -103,10 +115,12 @@ int Ahorcado::chequear_letra(char letra) {
 	int cantidad_letras = 0;
 
 	for (int i = 0; i < longitud_vector; i++) {
+
 		if (this->palabra[i] == letra) {
 			cantidad_letras++;
 			this->letras_acertadas[i] = true;
 		}
+
 	}
 
 	return cantidad_letras;
