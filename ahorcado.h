@@ -11,14 +11,19 @@ const int MAX_LETRAS = 27;
 
 class Ahorcado{
 
-	//Atributos
 	private:
+		//Atributos
 		char * palabra;
 		char letras_ingresadas[MAX_LETRAS];
 		bool * letras_acertadas;
 		unsigned intentos;
 		unsigned errores_cometidos;
 		unsigned cantidad_letras_ingresadas;
+
+		//Métodos
+		//pre: requiere el largo del vector letras_acertadas a inicializar
+		//post: todas las posiciones del vector son marcadas como falsas
+		void inicializar_letras_acertadas(int largo);
 
 	// Métodos
 	public:

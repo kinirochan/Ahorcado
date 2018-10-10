@@ -10,6 +10,8 @@ const string SI = "s";
 const string NO = "n";
 const int MIN_INTENTOS = 3;
 const int MIN_LETRAS = 3;
+const int MAX_RANGO_PALABRAS = 50;
+const int MIN_RANGO_PALABRAS = 1;
 
 /*pre: - */
 /*post: Solicita al usuario que ingrese una palabra para jugar o se toma una
@@ -93,7 +95,7 @@ int main() {
 
 	mostrar_resultado(partida.gano());
 
-	if(palabra_arriesgada!=NULL){
+	if(palabra_arriesgada != NULL){
 		delete[] palabra_arriesgada;
 	}
 
@@ -119,7 +121,7 @@ string pedir_palabra() {
 		} else if (elegir_palabra == NO) {
 
 			palabra = buscar_palabra_aleatoria();
-			cout << "Se ha elegido una palabra al azar." << '\n';
+			cout << "Se ha elegido una palabra al azar." << endl;
 
 		}
 
@@ -159,7 +161,7 @@ int largo_string(char* palabra) {
 string buscar_palabra_aleatoria() {
 	srand (time(NULL));
 	string palabra;
-	int numero_aleatorio = rand() % 50 + 1;
+	int numero_aleatorio = rand() % MAX_RANGO_PALABRAS + MIN_RANGO_PALABRAS;
 
 	ifstream archivo;
 	archivo.open("palabras.txt");

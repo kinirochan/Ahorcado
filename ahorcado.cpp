@@ -2,21 +2,20 @@
 
 //constructor
 Ahorcado::Ahorcado(string palabra, unsigned int intentos) {
-	std::cout << "Constructor:" << '\n';
+	std::cout << "Constructor:" << endl;
+
 	this->errores_cometidos = 0;
 	this->cantidad_letras_ingresadas = 0;
 	this->intentos = intentos;
 
 	this->letras_acertadas = new bool[palabra.length()];
-	for (int i = 0; i < (int)palabra.length(); i++) {
-		letras_acertadas[i] = false;
-	}
-	std::cout << "Direccion de memoria de letras_acertadas: " << &this->letras_acertadas  << '\n';
+	this->inicializar_letras_acertadas((int)palabra.length());
+	std::cout << "Direccion de memoria de letras_acertadas: " << &this->letras_acertadas  << endl;
 
 	this->palabra = new char[palabra.length() + 1];
 	convertir_string_a_char(palabra, this->palabra);
 	this->pasar_a_minusculas(this->palabra, palabra.length() + 1);
-	std::cout << "Direccion de memoria de palabra: " << &this->palabra  << "\n\n";
+	std::cout << "Direccion de memoria de palabra: " << &this->palabra  << endl << endl;
 }
 
 void Ahorcado::convertir_string_a_char(string palabra_string, char* palabra_char){
@@ -118,9 +117,11 @@ bool Ahorcado::letra_es_repetida(char letra) {
 	bool repetida = false;
 
 	while ((contador < this->cantidad_letras_ingresadas) && !repetida) {
+
 		if (this->letras_ingresadas[contador] == letra) {
 			repetida = true;
 		}
+
 		contador++;
 	}
 
@@ -129,6 +130,7 @@ bool Ahorcado::letra_es_repetida(char letra) {
 
 bool Ahorcado::comprobar_partida() {
 	bool sigue_partida = true;
+
 	if (this->gano() || this->errores_cometidos >= this->intentos) {
 		sigue_partida = false;
 	}
@@ -144,14 +146,22 @@ void Ahorcado::pasar_a_minusculas (char * palabra, int tamanio_vector){
 
 }
 
+void Ahorcado::inicializar_letras_acertadas(int largo){
+
+	for (int i = 0; i < largo; i++) {
+		this->letras_acertadas[i] = false;
+	}
+
+}
+
 //destructor
 Ahorcado::~Ahorcado() {
 
-	std::cout << "Destructor:" << '\n';
-	std::cout << "Direccion de memoria de letras_acertadas: " << &this->letras_acertadas  << '\n';
+	std::cout << "Destructor:" << endl;
+	std::cout << "Direccion de memoria de letras_acertadas: " << &this->letras_acertadas  << endl;
 	delete[] this-> letras_acertadas;
 
-	std::cout << "Direccion de memoria de palabra: " << &this->palabra  << '\n';
+	std::cout << "Direccion de memoria de palabra: " << &this->palabra  << endl;
 	delete[] this->palabra;
 
 }
